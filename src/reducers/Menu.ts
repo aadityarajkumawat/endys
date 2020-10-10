@@ -1,5 +1,5 @@
 import * as MyTypes from "MyTypes";
-import { actionTypes } from "../actions/";
+import { actionTypes } from "../actions/menu/Menu";
 
 export interface MenuState {
   status: string;

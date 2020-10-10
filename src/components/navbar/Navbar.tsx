@@ -4,8 +4,9 @@ import { ListContainer } from "./ListContainer.styles";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
-import { actionTypes } from "../../actions";
+import { actionTypes } from "../../actions/menu/Menu";
 import { MenuState } from "../../reducers/Menu";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 interface Props {
   menu: MenuState;
@@ -13,11 +14,8 @@ interface Props {
   closeMenu: () => object;
 }
 
-const Navbar: React.FC<Props> = ({
-  menu,
-  openMenu,
-  closeMenu,
-}: Props) => {
+const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
+  const type = useMediaQuery("(max-width: 1300px)");
   const toggleMenu = () => {
     if (menu.status === "none") {
       openMenu();
@@ -37,7 +35,11 @@ const Navbar: React.FC<Props> = ({
           </div>
         </div>
         <div className="nav-links flex align-c">
-          <ListContainer className="list flex" isVisible={menu.status}>
+          <ListContainer
+            className="list flex"
+            isVisible={menu.status}
+            type={type}
+          >
             <li>
               <a href="#">Home</a>
             </li>
