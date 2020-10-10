@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap");
+
+@import "../components/navbar/navbar";
+@import "../pages/home/home";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Oxygen", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+section,
+option {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+.App,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-c {
+  justify-content: center;
+}
+
+.justify-s {
+  justify-content: flex-start;
+}
+
+.justify-e {
+  justify-content: flex-end;
+}
+
+.justify-sb {
+  justify-content: space-between;
+}
+
+.align-c {
+  align-items: center;
+}
+
+.align-s {
+  align-items: flex-start;
+}
+
+.align-e {
+  align-items: flex-end;
+}
+
+.flex-dir-col {
+  flex-direction: column;
+}

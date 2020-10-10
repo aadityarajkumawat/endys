@@ -1,0 +1,73 @@
+.navbar-container {
+  width: 100%;
+  height: 80px;
+  padding: 10px 80px;
+  background-color: #222;
+  opacity: 0.99;
+
+  @media screen and (max-width: 880px) {
+    padding: 10px 40px;
+  }
+
+  nav {
+    .logo-section {
+      .endys {
+        margin-left: 15px;
+        .endys-name {
+          font-size: 30px;
+          color: #e5e5e5;
+        }
+
+        .pizza {
+          letter-spacing: 11px;
+          color: #b2b2b2;
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+    }
+
+    .nav-links {
+      .list {
+        list-style: none;
+
+        @media screen and (max-width: 1300px) {
+          display: none;
+        }
+        li {
+          a {
+            text-decoration: none;
+            color: #e5e5e5;
+            margin-right: 45px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            &:hover {
+              background-color: rgba(84, 84, 84, 0.306);
+            }
+          }
+        }
+      }
+
+      .ham-menu {
+        display: none;
+        cursor: pointer;
+        @media screen and (max-width: 1300px) {
+          display: flex;
+        }
+        width: 30px;
+        .wrapper {
+          span {
+            width: 30px;
+            height: 2px;
+            background-color: #e5e5e5;
+          }
+
+          .middle {
+            width: 25px;
+            margin: 6px 0;
+          }
+        }
+      }
+    }
+  }
+}
