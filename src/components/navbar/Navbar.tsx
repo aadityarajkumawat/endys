@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../../img/Logo.svg";
 import { ListContainer } from "./ListContainer.styles";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import * as MyTypes from "MyTypes";
 import { actionTypes } from "../../actions/menu/Menu";
 import { MenuState } from "../../reducers/Menu";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+// import { Link } from "react-router-dom";
 
 interface Props {
   menu: MenuState;
@@ -16,6 +17,16 @@ interface Props {
 
 const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
+
+  useEffect(() => {
+    if (type) {
+      openMenu();
+      console.log('exec')
+    } else {
+      closeMenu()
+    }
+  }, [type]);
+
   const toggleMenu = () => {
     if (menu.status === "none") {
       openMenu();
@@ -38,7 +49,7 @@ const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
           <ListContainer
             className="list flex"
             isVisible={menu.status}
-            type={type}
+            typeP={type}
           >
             <li>
               <a href="#">Home</a>
