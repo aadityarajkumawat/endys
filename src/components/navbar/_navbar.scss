@@ -4,6 +4,9 @@
   padding: 10px 80px;
   background-color: #222;
   opacity: 0.99;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 3px 5px 0px rgba(68, 68, 68, 0.306);
 
   @media screen and (max-width: 880px) {
     padding: 10px 40px;
@@ -36,6 +39,7 @@
         }
         li {
           a {
+            position: relative;
             text-decoration: none;
             color: #e5e5e5;
             margin-right: 45px;
@@ -44,6 +48,25 @@
             &:hover {
               background-color: rgba(84, 84, 84, 0.306);
             }
+
+            i {
+              font-size: 20px;
+            }
+
+            .cart-counter {
+              position: absolute;
+              width: 15px;
+              height: 15px;
+              border-radius: 100%;
+              background-color: rgb(148, 148, 148);
+              top: 0px;
+              right: 3px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: #222;
+              font-size: 12px;
+            }
           }
         }
       }
@@ -51,10 +74,12 @@
       .ham-menu {
         display: none;
         cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+        width: auto;
         @media screen and (max-width: 1300px) {
           display: flex;
         }
-        width: 30px;
         .wrapper {
           span {
             width: 30px;
@@ -66,6 +91,10 @@
             width: 25px;
             margin: 6px 0;
           }
+        }
+
+        &:hover {
+          background-color: rgba(84, 84, 84, 0.306);
         }
       }
     }

@@ -5,6 +5,10 @@
   padding: 10px 80px;
   background-color: #222;
   opacity: 0.99;
+  position: relative;
+  z-index: 3;
+  -webkit-box-shadow: 0 3px 5px 0px rgba(68, 68, 68, 0.306);
+          box-shadow: 0 3px 5px 0px rgba(68, 68, 68, 0.306);
 }
 
 @media screen and (max-width: 880px) {
@@ -40,6 +44,7 @@
 }
 
 .navbar-container nav .nav-links .list li a {
+  position: relative;
   text-decoration: none;
   color: #e5e5e5;
   margin-right: 45px;
@@ -51,10 +56,37 @@
   background-color: rgba(84, 84, 84, 0.306);
 }
 
+.navbar-container nav .nav-links .list li a i {
+  font-size: 20px;
+}
+
+.navbar-container nav .nav-links .list li a .cart-counter {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  background-color: #949494;
+  top: 0px;
+  right: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #222;
+  font-size: 12px;
+}
+
 .navbar-container nav .nav-links .ham-menu {
   display: none;
   cursor: pointer;
-  width: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  width: auto;
 }
 
 @media screen and (max-width: 1300px) {
@@ -76,12 +108,13 @@
   margin: 6px 0;
 }
 
+.navbar-container nav .nav-links .ham-menu:hover {
+  background-color: rgba(84, 84, 84, 0.306);
+}
+
 .home {
-  position: absolute;
   width: 100%;
-  height: 100%;
-  top: 0;
-  z-index: -1;
+  height: calc(100% - 80px);
   background-image: url("../img/vitalii-chernopyskyi-Oxb84ENcFfU-unsplash.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -145,6 +178,45 @@
   cursor: pointer;
 }
 
+.menu-container {
+  width: 100%;
+  height: auto;
+  background-color: #222;
+}
+
+.menu-container .page-type {
+  color: #e2e2e2;
+  margin: 40px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 27px;
+}
+
+.menu-container .pizzas-container {
+  border: 1px solid #e2e2e217;
+  margin-bottom: 100px;
+}
+
+.menu-container .pizzas-container .pizzas-list {
+  padding: 0px 50px 80px 50px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+}
+
+@media screen and (max-width: 1250px) {
+  .menu-container .pizzas-container .pizzas-list {
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.menu-container .pizzas-container .pizzas-list .p-img {
+  width: 170px;
+  height: 170px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -174,6 +246,7 @@ body,
 #root {
   width: 100%;
   height: 100%;
+  background-color: #222;
 }
 
 .flex {

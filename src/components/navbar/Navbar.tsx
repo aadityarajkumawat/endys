@@ -5,30 +5,50 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
 import { actionTypes } from "../../actions/menu/Menu";
+import { actionTypesCart } from "../../actions/page/Page";
 import { MenuState } from "../../reducers/Menu";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { CartShownStatus } from "../../reducers/Page";
 
 interface Props {
   menu: MenuState;
+  page: CartShownStatus;
   openMenu: () => object;
   closeMenu: () => object;
+  removeCart: () => object;
+  showCart: () => object;
 }
 
-const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
+const Navbar: React.FC<Props> = ({
+  menu,
+  openMenu,
+  closeMenu,
+  page,
+  removeCart,
+  showCart,
+}: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
 
   useEffect(() => {
     if (type) {
       openMenu();
-      console.log('exec')
+      console.log("exec");
     } else {
-      closeMenu()
+      closeMenu();
     }
   }, [type]);
 
   const toggleMenu = () => {
     if (menu.status === "none") {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  };
+
+  const navigate = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (type) {
       openMenu();
     } else {
       closeMenu();
@@ -52,17 +72,31 @@ const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
             typeP={type}
           >
             <li>
-              <a href="#">Home</a>
+              <Link to="/" onClick={navigate}>
+                Home
+              </Link>
             </li>
             <li>
-              <a href="#">Menu</a>
+              <Link to="/menu" onClick={navigate}>
+                Menu
+              </Link>
             </li>
             <li>
-              <a href="#">Order Online</a>
+              <Link to="#">Order Online</Link>
             </li>
-            <li>
-              <a href="#">About</a>
-            </li>
+            {!page.cartShown && (
+              <li>
+                <Link to="#">About</Link>
+              </li>
+            )}
+            {page.cartShown && (
+              <li>
+                <Link to="#">
+                  <span className="cart-counter">0</span>
+                  <i className="fas fa-shopping-cart"></i>
+                </Link>
+              </li>
+            )}
           </ListContainer>
           <div className="ham-menu" onClick={toggleMenu}>
             <div className="wrapper flex flex-dir-col align-c justify-c">
@@ -80,12 +114,15 @@ const Navbar: React.FC<Props> = ({ menu, openMenu, closeMenu }: Props) => {
 const mapStateToProps = (store: MyTypes.ReducerState) => {
   return {
     menu: store.menu,
+    page: store.page,
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   openMenu: () => dispatch({ type: actionTypes.OPEN_MENU }),
   closeMenu: () => dispatch({ type: actionTypes.CLOSE_MENU }),
+  showCart: () => dispatch({ type: actionTypesCart.SHOW_CART }),
+  removeCart: () => dispatch({ type: actionTypesCart.REMOVE_CART }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -1,0 +1,33 @@
+.menu-container {
+  width: 100%;
+  height: auto;
+  background-color: #222;
+
+  .page-type {
+    color: #e2e2e2;
+    margin: 40px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 27px;
+  }
+
+  .pizzas-container {
+    border: 1px solid #e2e2e217;
+    margin-bottom: 100px;
+
+    .pizzas-list {
+      padding: 0px 50px 80px 50px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      @media screen and (max-width: 1250px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .p-img {
+        width: 170px;
+        height: 170px;
+      }
+    }
+  }
+}

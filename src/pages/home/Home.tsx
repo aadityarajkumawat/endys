@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { actionTypesCart } from "../../actions/page/Page";
+import * as MyTypes from "MyTypes";
 
-interface Props {}
+interface Props {
+  removeCart: () => object;
+}
 
-export const Home: React.FC<Props> = ({}) => {
+const Home: React.FC<Props> = ({ removeCart }) => {
+  useEffect(() => {
+    removeCart();
+  }, []);
+
   const log = () => {
     console.log("clicked");
   };
@@ -17,3 +27,9 @@ export const Home: React.FC<Props> = ({}) => {
     </div>
   );
 };
+
+const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
+  removeCart: () => dispatch({ type: actionTypesCart.REMOVE_CART }),
+});
+
+export default connect(null, mapDispatchToProps)(Home);
