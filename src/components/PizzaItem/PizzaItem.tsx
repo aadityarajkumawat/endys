@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PImg from "../../img/pl-img.png";
 import { incCartCount } from "../../actions/cart/cartActions";
+import { switchCartRipple } from "../../actions/cart/cartActions";
+import * as MyTypes from "MyTypes";
 import { connect } from "react-redux";
+import { Cart } from "../../reducers/Cart";
 
 interface Props {
-  incCartCount: () => object;
+  incCartCount: (count: number) => void;
+  switchCartRipple: (s: boolean) => void;
+  cart: Cart;
 }
 
-const PizzaItem: React.FC<Props> = ({ incCartCount }) => {
+const PizzaItem: React.FC<Props> = ({
+  incCartCount,
+  switchCartRipple,
+  cart,
+}) => {
+  const combinedFunction = (cartCount: number, cartRipple: boolean) => {
+    incCartCount(cartCount);
+    switchCartRipple(cartRipple);
+    setTimeout(() => {
+      switchCartRipple(false);
+    }, 500);
+  };
+
   return (
     <PizzaI>
       <img src={PImg} className="p-img"></img>
       <PName>Farm House</PName>
       <PPrice>289 INR</PPrice>
-      <AddToCart onClick={() => incCartCount()}>Add to cart</AddToCart>
+      <AddToCart onClick={() => combinedFunction(cart.cartCount, true)}>
+        Add to cart
+      </AddToCart>
     </PizzaI>
   );
 };
@@ -56,4 +75,12 @@ const AddToCart = styled.button`
   cursor: pointer;
 `;
 
-export default connect(null, { incCartCount })(PizzaItem);
+const mapStateToProps = (store: MyTypes.ReducerState) => {
+  return {
+    cart: store.cart,
+  };
+};
+
+export default connect(mapStateToProps, { incCartCount, switchCartRipple })(
+  PizzaItem
+);

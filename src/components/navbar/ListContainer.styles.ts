@@ -5,6 +5,8 @@ type Ul = {
   typeP: boolean;
 };
 
+
+
 export const ListContainer = styled.ul<Ul>`
   display: ${({ isVisible }) =>
     isVisible === "none" ? "flex" : "none"} !important;

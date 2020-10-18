@@ -10,10 +10,13 @@ import { MenuState } from "../../reducers/Menu";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Link } from "react-router-dom";
 import { CartShownStatus } from "../../reducers/Page";
+import { Cart } from "../../reducers/Cart";
+import { CartRipple } from "./CartRipple.styles";
 
 interface Props {
   menu: MenuState;
   page: CartShownStatus;
+  cart: Cart;
   openMenu: () => object;
   closeMenu: () => object;
   removeCart: () => object;
@@ -25,8 +28,7 @@ const Navbar: React.FC<Props> = ({
   openMenu,
   closeMenu,
   page,
-  removeCart,
-  showCart,
+  cart,
 }: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
 
@@ -92,7 +94,12 @@ const Navbar: React.FC<Props> = ({
             {page.cartShown && (
               <li>
                 <Link to="#">
-                  <span className="cart-counter">0</span>
+                  <CartRipple
+                    respondInc={cart.rippleS}
+                    className="cart-counter"
+                  >
+                    {cart.cartCount}
+                  </CartRipple>
                   <i className="fas fa-shopping-cart"></i>
                 </Link>
               </li>
@@ -115,6 +122,7 @@ const mapStateToProps = (store: MyTypes.ReducerState) => {
   return {
     menu: store.menu,
     page: store.page,
+    cart: store.cart,
   };
 };
 

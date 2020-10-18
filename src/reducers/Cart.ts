@@ -1,12 +1,15 @@
 import * as MyTypes from "MyTypes";
 import { actionTypesCartCount } from "../actions/cart/Cart";
+import { actionTypesRipple } from "../actions/cart/Cart";
 
 export interface Cart {
   cartCount: number;
+  rippleS: boolean;
 }
 
 const init: Cart = {
   cartCount: 0,
+  rippleS: false,
 };
 
 export const CartReducer = (
@@ -18,6 +21,9 @@ export const CartReducer = (
       return { ...state, cartCount: action.payload + 1 };
     case actionTypesCartCount.DEC_CART_COUNT:
       return { ...state, cartCount: action.payload - 1 };
+    case actionTypesRipple.RIPPLE_ON:
+    case actionTypesRipple.RIPPLE_OFF:
+      return { ...state, rippleS: action.payload };
     default:
       return state;
   }

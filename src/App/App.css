@@ -81,6 +81,16 @@
   font-size: 12px;
 }
 
+.navbar-container nav .nav-links .list li a .cart-counter::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #f0f0f0;
+  border-radius: 100%;
+  z-index: -1;
+}
+
 .navbar-container nav .nav-links .ham-menu {
   display: none;
   cursor: pointer;
