@@ -1,15 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { actionTypesCart } from "../../actions/page/Page";
 import * as MyTypes from "MyTypes";
 import PizzaItem from "../../components/PizzaItem/PizzaItem";
+import { getPizzaz } from "../../firebase/getPizzaz";
 
 interface Props {
   showCart: () => object;
 }
 
+export interface Pizza {
+  name: string;
+  price: string;
+  imgUrl: string;
+}
+
 const MenuContainer: React.FC<Props> = ({ showCart }) => {
+  const [pizzas, setPizzas] = useState<Array<Pizza>>([]);
+
   useEffect(() => {
     showCart();
   }, []);
@@ -19,14 +28,16 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
       <div className="page-type">Menu</div>
       <div className="pizzas-container">
         <div className="pizzas-list">
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
-          <PizzaItem />
+          {pizzas.map((pizza) => {
+            return (
+              <PizzaItem
+                key={pizza.price}
+                name={pizza.name}
+                url={pizza.imgUrl}
+                price={pizza.price}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

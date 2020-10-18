@@ -11,12 +11,18 @@ interface Props {
   incCartCount: (count: number) => void;
   switchCartRipple: (s: boolean) => void;
   cart: Cart;
+  url: string;
+  name: string;
+  price: string;
 }
 
 const PizzaItem: React.FC<Props> = ({
   incCartCount,
   switchCartRipple,
   cart,
+  url,
+  name,
+  price,
 }) => {
   const combinedFunction = (cartCount: number, cartRipple: boolean) => {
     incCartCount(cartCount);
@@ -28,9 +34,9 @@ const PizzaItem: React.FC<Props> = ({
 
   return (
     <PizzaI>
-      <img src={PImg} className="p-img"></img>
-      <PName>Farm House</PName>
-      <PPrice>289 INR</PPrice>
+      <img src={url} className="p-img"></img>
+      <PName>{name}</PName>
+      <PPrice>{price} INR</PPrice>
       <AddToCart onClick={() => combinedFunction(cart.cartCount, true)}>
         Add to cart
       </AddToCart>
