@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import PImg from "../../img/pl-img.png";
 import { incCartCount } from "../../actions/cart/cartActions";
 import { switchCartRipple } from "../../actions/cart/cartActions";
 import * as MyTypes from "MyTypes";
@@ -11,9 +10,9 @@ interface Props {
   incCartCount: (count: number) => void;
   switchCartRipple: (s: boolean) => void;
   cart: Cart;
-  url: string;
-  name: string;
-  price: string;
+  url?: string;
+  name?: string;
+  price?: string;
 }
 
 const PizzaItem: React.FC<Props> = ({
@@ -45,8 +44,8 @@ const PizzaItem: React.FC<Props> = ({
 };
 
 const PizzaI = styled.div`
-  width: 200px;
-  height: 280px;
+  width: 250px;
+  height: 300px;
   border-radius: 12px;
   background-color: #171717;
   margin: 0 20px;

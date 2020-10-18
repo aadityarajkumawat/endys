@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { actionTypesCart } from "../../actions/page/Page";
 import * as MyTypes from "MyTypes";
 import PizzaItem from "../../components/PizzaItem/PizzaItem";
-import { getPizzaz } from "../../firebase/getPizzaz";
+import { firestore } from "../../firebase/config";
+import { pizzaNameParser } from "../../components/PizzaItem/pizzaNameParser";
 
 interface Props {
   showCart: () => object;
+  pizzaNameParser: (s: string) => string;
 }
 
 export interface Pizza {
@@ -16,11 +18,24 @@ export interface Pizza {
   imgUrl: string;
 }
 
-const MenuContainer: React.FC<Props> = ({ showCart }) => {
+const MenuContainer: React.FC<Props> = ({ showCart, pizzaNameParser }) => {
   const [pizzas, setPizzas] = useState<Array<Pizza>>([]);
 
   useEffect(() => {
     showCart();
+    firestore
+      .collection("pizza")
+      .get()
+      .then((doc) => {
+        doc.forEach((doo) => {
+          let temp: Pizza = { name: "", price: "", imgUrl: "" };
+          temp.name = doo.data().name;
+          temp.price = doo.data().price;
+          temp.imgUrl = doo.data().imgUrl;
+          temp.name = pizzaNameParser(temp.name);
+          setPizzas((prev) => [...prev, temp]);
+        });
+      });
   }, []);
 
   return (
@@ -38,6 +53,18 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
               />
             );
           })}
+          {pizzas.length === 0 && (
+            <Fragment>
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+              <PizzaItem name="" />
+            </Fragment>
+          )}
         </div>
       </div>
     </div>
@@ -46,6 +73,7 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   showCart: () => dispatch({ type: actionTypesCart.SHOW_CART }),
+  pizzaNameParser
 });
 
 export default connect(null, mapDispatchToProps)(MenuContainer);
