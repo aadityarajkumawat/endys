@@ -2,7 +2,10 @@
 
 @import "../components/navbar/navbar";
 @import "../pages/home/home";
-@import '../pages/menu/menu';
+@import "../pages/menu/menu";
+@import "../pages/cart/cart";
+@import "../components/cart-item/cart-item";
+@import "../components/counter/counter";
 
 * {
   margin: 0;

@@ -1,0 +1,36 @@
+.cart-item {
+  width: 100%;
+  margin-bottom: 10px;
+  .top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+
+    div {
+      color: aliceblue;
+      user-select: none;
+    }
+  }
+
+  .bottom {
+    border-top: 1px solid #e3e3e350;
+    border-bottom: 1px solid #e3e3e3;
+    display: flex;
+    padding: 8px 0;
+    padding-left: 50px;
+
+    .remove {
+      button {
+        cursor: pointer;
+        width: 70px;
+        height: 25px;
+        background-color: #690303;
+        border: none;
+        border-radius: 8px;
+        color: #e3e3e3;
+        user-select: none;
+      }
+    }
+  }
+}

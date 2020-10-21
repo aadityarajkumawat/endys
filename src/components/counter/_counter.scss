@@ -1,0 +1,80 @@
+.counter {
+  width: 70px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+  margin-right: 20px;
+  border-radius: 8px;
+
+  .number {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #424242;
+    font-size: 15px;
+    padding-right: 2px;
+    font-weight: 600;
+  }
+
+  .tuner {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .up-con,
+    .down-con {
+      width: 100%;
+      height: 50%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .up-con {
+      padding-top: 3px;
+      span {
+        position: absolute;
+        display: flex;
+        width: 8px;
+        height: 2px;
+        background-color: #424242;
+      }
+
+      .top-f-up {
+        transform: rotate(-45deg) translate(-50%, -50%);
+      }
+
+      .bot-f-up {
+        transform: rotate(45deg) translate(34%, 50%);
+      }
+    }
+
+    .down-con {
+      padding-top: 7px;
+      padding-right: 1px;
+      span {
+        position: absolute;
+        display: flex;
+        width: 8px;
+        height: 2px;
+        background-color: #424242;
+      }
+
+      .top-f {
+        transform: rotate(45deg) translate(-37%, 0%);
+      }
+
+      .bot-f {
+        transform: rotate(-45deg) translate(37%, 0%);
+      }
+    }
+  }
+}

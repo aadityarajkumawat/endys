@@ -93,7 +93,7 @@ const Navbar: React.FC<Props> = ({
             )}
             {page.cartShown && (
               <li>
-                <Link to="#">
+                <Link to="/cart">
                   <CartRipple
                     respondInc={cart.rippleS}
                     className="cart-counter"
