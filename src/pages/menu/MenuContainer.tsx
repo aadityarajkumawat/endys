@@ -18,7 +18,7 @@ export interface Pizza {
   imgUrl: string;
 }
 
-const MenuContainer: React.FC<Props> = ({ showCart, pizzaNameParser }) => {
+const MenuContainer: React.FC<Props> = ({ showCart }) => {
   const [pizzas, setPizzas] = useState<Array<Pizza>>([]);
 
   useEffect(() => {
