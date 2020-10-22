@@ -1,11 +1,13 @@
 import React from "react";
 
-interface Props {}
+interface Props {
+  quantity: string;
+}
 
-export const Counter: React.FC<Props> = () => {
+export const Counter: React.FC<Props> = ({ quantity }) => {
   return (
     <div className="counter">
-      <div className="number">56</div>
+      <div className="number">{quantity}</div>
       <div className="tuner">
         <div className="up-con">
           <span className="top-f-up"></span>
