@@ -14,18 +14,16 @@ const Cart: React.FC<Props> = () => {
   const [cartItems, setCartItems] = useState<Array<PizzaII>>([]);
 
   useEffect(() => {
-    firestore
-      .collection("cart")
-      .get()
-      .then((snaps) => {
-        snaps.forEach((snap) => {
-          const temp: PizzaII = { name: "", price: "", quantity: "" };
-          temp.name = snap.data().name;
-          temp.price = snap.data().price;
-          temp.quantity = snap.data().quantity;
-          setCartItems((prev) => [...prev, temp]);
-        });
+    firestore.collection("cart").onSnapshot((snaps) => {
+      setCartItems([]);
+      snaps.forEach((doc) => {
+        const temp: PizzaII = { name: "", price: "", quantity: "" };
+        temp.name = doc.data().name;
+        temp.price = doc.data().price;
+        temp.quantity = doc.data().quantity;
+        setCartItems((prev) => [...prev, temp]);
       });
+    });
   }, []);
 
   return (
