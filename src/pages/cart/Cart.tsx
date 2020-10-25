@@ -6,7 +6,7 @@ interface Props {}
 
 interface PizzaII {
   name: string;
-  quantity: string;
+  quantity: number;
   price: string;
 }
 
@@ -17,10 +17,10 @@ const Cart: React.FC<Props> = () => {
     firestore.collection("cart").onSnapshot((snaps) => {
       setCartItems([]);
       snaps.forEach((doc) => {
-        const temp: PizzaII = { name: "", price: "", quantity: "" };
+        const temp: PizzaII = { name: "", price: "", quantity: 0 };
         temp.name = doc.data().name;
         temp.price = doc.data().price;
-        temp.quantity = doc.data().quantity;
+        temp.quantity = Number(doc.data().quantity);
         setCartItems((prev) => [...prev, temp]);
       });
     });

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../img/Logo.svg";
 import { ListContainer } from "./ListContainer.styles";
 import { connect } from "react-redux";
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { CartShownStatus } from "../../reducers/Page";
 import { Cart } from "../../reducers/Cart";
 import { CartRipple } from "./CartRipple.styles";
+import { firestore } from "../../firebase/config";
 
 interface Props {
   menu: MenuState;
@@ -32,6 +33,8 @@ const Navbar: React.FC<Props> = ({
 }: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
 
+  const [cartCount, setCartCount] = useState<number>(0);
+
   useEffect(() => {
     if (type) {
       openMenu();
@@ -40,6 +43,18 @@ const Navbar: React.FC<Props> = ({
       closeMenu();
     }
   }, [type]);
+
+  useEffect(() => {
+    firestore.collection("cart").onSnapshot((snaps) => {
+      setCartCount(0);
+      snaps.forEach((snap) => {
+        console.log(snap.data().quantity);
+        setCartCount((prev) => {
+          return (Number(prev) + Number(snap.data().quantity));
+        });
+      });
+    });
+  }, []);
 
   const toggleMenu = () => {
     if (menu.status === "none") {
@@ -98,7 +113,7 @@ const Navbar: React.FC<Props> = ({
                     respondInc={cart.rippleS}
                     className="cart-counter"
                   >
-                    {cart.cartCount}
+                    {cartCount}
                   </CartRipple>
                   <i className="fas fa-shopping-cart"></i>
                 </Link>

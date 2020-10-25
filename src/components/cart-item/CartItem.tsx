@@ -4,7 +4,7 @@ import { firestore } from "../../firebase/config";
 
 interface Props {
   name: string;
-  quantity: string;
+  quantity: number;
   price: string;
 }
 

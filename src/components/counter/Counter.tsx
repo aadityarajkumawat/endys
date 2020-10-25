@@ -2,7 +2,7 @@ import React from "react";
 import { firestore } from "../../firebase/config";
 
 interface Props {
-  quantity: string;
+  quantity: number;
   name: string;
   price: string;
 }

@@ -16,56 +16,62 @@ interface Props {
   price?: string;
 }
 
-const PizzaItem: React.FC<Props> = ({
-  cart,
-  url,
-  name,
-  price,
-  incCartCount,
-  switchCartRipple,
-}) => {
-  const [num, setNum] = useState<{ quan: number; _id: string }>({
-    quan: 1,
-    _id: "",
-  });
+interface SS {
+  q: number;
+  _id: string;
+}
 
-  const combinedFunction = (cartCount: number, cartRipple: boolean) => {
-    incCartCount(cartCount);
+const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
+  const [eventOn, setEventOn] = useState<boolean>(false);
+  const [st, setSt] = useState<string>("k");
+  const [theId, setTheId] = useState<SS>({ q: 0, _id: "" });
+
+  const combinedFunction = (cartRipple: boolean) => {
     switchCartRipple(cartRipple);
-
+    setEventOn(true);
     // Checking if it already exist
     firestore
       .collection("cart")
       .where("name", "==", name)
       .get()
       .then((snaps) => {
+        setSt("o");
         snaps.forEach((snap) => {
-          setNum({ quan: snap.data().quantity + 1, _id: snap.id });
+          setTheId({ q: snap.data().quantity, _id: snap.id });
         });
-      })
-      .catch(() => {
-        setNum({ quan: 1, _id: "" });
       });
 
-    // If already exist incerease the quantity
-    // Else add a new pizza record
-    if (num.quan > 1) {
-      firestore.collection("cart").doc(num._id).set({
-        name: name,
-        price: price,
-        quantity: num.quan,
-      });
-    } else {
+    if (st === "o") {
       firestore
         .collection("cart")
-        .add({ name: name, price: price, quantity: num.quan })
+        .doc(theId._id)
+        .set({
+          name: name,
+          price: price,
+          quantity: theId.q + 1,
+        })
+        .then(() => {
+          setEventOn(false);
+        })
+        .catch(() => {
+          console.log("SMTHNG");
+        });
+    } else {
+      setEventOn(true);
+      firestore
+        .collection("cart")
+        .add({ name: name, price: price, quantity: 1 })
         .then((docRef) => {
           console.log("Inserted", docRef.id);
+          setEventOn(false);
         })
         .catch((err) => {
           console.log("Error", err);
         });
     }
+
+    // If already exist incerease the quantity
+    // Else add a new pizza record
 
     setTimeout(() => {
       switchCartRipple(false);
@@ -77,7 +83,7 @@ const PizzaItem: React.FC<Props> = ({
       <img src={url} className="p-img"></img>
       <PName>{name}</PName>
       <PPrice>{price} INR</PPrice>
-      <AddToCart onClick={() => combinedFunction(cart.cartCount, true)}>
+      <AddToCart onClick={() => combinedFunction(true)} disabled={eventOn}>
         Add to cart
       </AddToCart>
     </PizzaI>
@@ -115,10 +121,11 @@ const AddToCart = styled.button`
   height: 30px;
   border: none;
   border-radius: 8px;
-  background-color: #476539;
   color: #fff;
   margin-top: 8px;
   cursor: pointer;
+  background-color: ${({ disabled }) =>
+    disabled ? "rgba(71, 101, 57, 0.5)" : "#476539"};
 `;
 
 const mapStateToProps = (store: MyTypes.ReducerState) => {
