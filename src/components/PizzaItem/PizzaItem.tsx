@@ -12,66 +12,52 @@ interface Props {
   switchCartRipple: (s: boolean) => void;
   cart: Cart;
   url?: string;
-  name?: string;
-  price?: string;
+  name: string;
+  price: string;
 }
 
-interface SS {
-  q: number;
-  _id: string;
+interface DocData {
+  name: string;
+  price: string;
+  quantity: number;
 }
 
 const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
   const [eventOn, setEventOn] = useState<boolean>(false);
-  const [st, setSt] = useState<string>("k");
-  const [theId, setTheId] = useState<SS>({ q: 0, _id: "" });
 
   const combinedFunction = (cartRipple: boolean) => {
     switchCartRipple(cartRipple);
     setEventOn(true);
-    // Checking if it already exist
+
     firestore
       .collection("cart")
-      .where("name", "==", name)
+      .doc(name)
       .get()
-      .then((snaps) => {
-        setSt("o");
-        snaps.forEach((snap) => {
-          setTheId({ q: snap.data().quantity, _id: snap.id });
-        });
+      .then((doc) => {
+        let temp: DocData = { name: "", price: "", quantity: 0 };
+        if (doc.data()) {
+          temp.name = doc.data()?.name;
+          temp.price = doc.data()?.price;
+          temp.quantity = doc.data()?.quantity + 1;
+        } else {
+          temp.name = name;
+          temp.price = price;
+          temp.quantity = 1;
+        }
+        console.log(temp, doc.data());
+        firestore
+          .collection("cart")
+          .doc(name)
+          .set({ name: temp.name, price: temp.price, quantity: temp.quantity })
+          .then(() => {
+            console.log("Document Inserted");
+            setEventOn(false);
+          })
+          .catch(() => {
+            console.log("Error uploading document");
+            setEventOn(false);
+          });
       });
-
-    if (st === "o") {
-      firestore
-        .collection("cart")
-        .doc(theId._id)
-        .set({
-          name: name,
-          price: price,
-          quantity: theId.q + 1,
-        })
-        .then(() => {
-          setEventOn(false);
-        })
-        .catch(() => {
-          console.log("SMTHNG");
-        });
-    } else {
-      setEventOn(true);
-      firestore
-        .collection("cart")
-        .add({ name: name, price: price, quantity: 1 })
-        .then((docRef) => {
-          console.log("Inserted", docRef.id);
-          setEventOn(false);
-        })
-        .catch((err) => {
-          console.log("Error", err);
-        });
-    }
-
-    // If already exist incerease the quantity
-    // Else add a new pizza record
 
     setTimeout(() => {
       switchCartRipple(false);

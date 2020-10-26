@@ -8,6 +8,7 @@ interface PizzaII {
   name: string;
   quantity: number;
   price: string;
+  id: string;
 }
 
 const Cart: React.FC<Props> = () => {
@@ -17,10 +18,11 @@ const Cart: React.FC<Props> = () => {
     firestore.collection("cart").onSnapshot((snaps) => {
       setCartItems([]);
       snaps.forEach((doc) => {
-        const temp: PizzaII = { name: "", price: "", quantity: 0 };
+        const temp: PizzaII = { name: "", price: "", quantity: 0, id: "" };
         temp.name = doc.data().name;
         temp.price = doc.data().price;
         temp.quantity = Number(doc.data().quantity);
+        temp.id = doc.id;
         setCartItems((prev) => [...prev, temp]);
       });
     });
@@ -47,6 +49,7 @@ const Cart: React.FC<Props> = () => {
               name={items.name}
               quantity={items.quantity}
               price={items.price}
+              key={items.id}
             />
           ))}
         </div>

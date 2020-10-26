@@ -48,7 +48,6 @@ const Navbar: React.FC<Props> = ({
     firestore.collection("cart").onSnapshot((snaps) => {
       setCartCount(0);
       snaps.forEach((snap) => {
-        console.log(snap.data().quantity);
         setCartCount((prev) => {
           return (Number(prev) + Number(snap.data().quantity));
         });

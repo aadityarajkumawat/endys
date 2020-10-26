@@ -55,14 +55,14 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
           })}
           {pizzas.length === 0 && (
             <Fragment>
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
-              <PizzaItem name="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
+              <PizzaItem name="" price="" />
             </Fragment>
           )}
         </div>
@@ -73,7 +73,7 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   showCart: () => dispatch({ type: actionTypesCart.SHOW_CART }),
-  pizzaNameParser
+  pizzaNameParser,
 });
 
 export default connect(null, mapDispatchToProps)(MenuContainer);
