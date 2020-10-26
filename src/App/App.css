@@ -401,7 +401,6 @@
   cursor: pointer;
   width: 70px;
   height: 25px;
-  background-color: #690303;
   border: none;
   border-radius: 8px;
   color: #e3e3e3;
@@ -482,6 +481,7 @@
 
 .counter .tuner .up-con {
   padding-top: 3px;
+  border-top-right-radius: 8px;
 }
 
 .counter .tuner .up-con span {
@@ -507,6 +507,7 @@
 .counter .tuner .down-con {
   padding-top: 7px;
   padding-right: 1px;
+  border-bottom-right-radius: 8px;
 }
 
 .counter .tuner .down-con span {

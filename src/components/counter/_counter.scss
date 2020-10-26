@@ -40,6 +40,7 @@
 
     .up-con {
       padding-top: 3px;
+      border-top-right-radius: 8px;
       span {
         position: absolute;
         display: flex;
@@ -60,6 +61,7 @@
     .down-con {
       padding-top: 7px;
       padding-right: 1px;
+      border-bottom-right-radius: 8px;
       span {
         position: absolute;
         display: flex;

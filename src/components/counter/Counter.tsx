@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { firestore } from "../../firebase/config";
+import { DownCounterButton, UpCounterButton } from "./CounterButton.styles";
 
 interface Props {
   quantity: number;
@@ -8,7 +9,20 @@ interface Props {
 }
 
 export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
+  const [event, setEvent] = useState<boolean>(false);
+  const getUpdatedQuantity = (b: boolean, q: number): number => {
+    if (b) {
+      return q + 1;
+    } else {
+      if (q > 1) {
+        return q - 1;
+      } else {
+        return 0;
+      }
+    }
+  };
   const changePizzaCount = (boo: boolean) => {
+    setEvent(true);
     firestore
       .collection("cart")
       .where("name", "==", name)
@@ -21,10 +35,9 @@ export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
             .set({
               name: name,
               price: price,
-              quantity: boo
-                ? (Number(quantity) + 1).toString()
-                : (Number(quantity) - 1).toString(),
+              quantity: getUpdatedQuantity(boo, quantity),
             });
+          setEvent(false);
         });
       });
   };
@@ -33,14 +46,22 @@ export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
     <div className="counter">
       <div className="number">{quantity}</div>
       <div className="tuner">
-        <div className="up-con" onClick={() => changePizzaCount(true)}>
+        <UpCounterButton
+          className="up-con"
+          onClick={() => (!event ? changePizzaCount(true) : null)}
+          eve={event}
+        >
           <span className="top-f-up"></span>
           <span className="bot-f-up"></span>
-        </div>
-        <div className="down-con" onClick={() => changePizzaCount(false)}>
+        </UpCounterButton>
+        <DownCounterButton
+          className="down-con"
+          onClick={() => (!event ? changePizzaCount(false) : null)}
+          eve={event}
+        >
           <span className="top-f"></span>
           <span className="bot-f"></span>
-        </div>
+        </DownCounterButton>
       </div>
     </div>
   );
