@@ -6,6 +6,9 @@ import * as MyTypes from "MyTypes";
 import { connect } from "react-redux";
 import { Cart } from "../../reducers/Cart";
 import { firestore } from "../../firebase/config";
+import ItemName from "./pizza-item-placeholders/ItemName";
+import ItemPrice from "./pizza-item-placeholders/ItemPrice";
+import ItemImage from "./pizza-item-placeholders/ItemImage";
 
 interface Props {
   incCartCount: (count: number) => void;
@@ -73,11 +76,11 @@ const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
 
   return (
     <PizzaI>
-      <img src={url} className="p-img"></img>
-      <PName>{name}</PName>
-      <PPrice>{price} INR</PPrice>
+      {url ? <img src={url} className="p-img"></img> : <ItemImage />}
+      {name ? <PName>{name}</PName> : <ItemName />}
+      {price ? <PPrice>{price} INR</PPrice> : <ItemPrice />}
       <AddToCart onClick={() => combinedFunction(true)} disabled={eventOn}>
-        Add to cart
+        {name && "Add to cart"}
       </AddToCart>
     </PizzaI>
   );
@@ -93,6 +96,10 @@ const PizzaI = styled.div`
   text-align: center;
   transition: all 0.5s ease;
   box-shadow: 4px 4px 4px 0px #e2e2e205, -4px 0px 4px 0px #e2e2e205;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
   @media screen and (max-width: 700px) {
     width: 210px;
