@@ -6,9 +6,10 @@ interface Props {
   name: string;
   quantity: number;
   price: string;
+  index: number;
 }
 
-export const CartItem: React.FC<Props> = ({ name, quantity, price }) => {
+export const CartItem: React.FC<Props> = ({ name, quantity, price, index }) => {
   const removeItem = () => {
     // Checking if it already exist
     firestore
@@ -38,7 +39,7 @@ export const CartItem: React.FC<Props> = ({ name, quantity, price }) => {
   return (
     <div className="cart-item">
       <div className="top">
-        <div>1</div>
+        <div>{index + 1}</div>
         <div>{name}</div>
         <div>{quantity}</div>
         <div>{price} INR</div>

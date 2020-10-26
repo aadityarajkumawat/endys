@@ -25,6 +25,25 @@ interface DocData {
 const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
   const [eventOn, setEventOn] = useState<boolean>(false);
 
+  const addItemToFirestore = (pizzaData: DocData) => {
+    firestore
+      .collection("cart")
+      .doc(name)
+      .set({
+        name: pizzaData.name,
+        price: pizzaData.price,
+        quantity: pizzaData.quantity,
+      })
+      .then(() => {
+        console.log("Document Inserted");
+        setEventOn(false);
+      })
+      .catch(() => {
+        console.log("Error uploading document");
+        setEventOn(false);
+      });
+  };
+
   const combinedFunction = (cartRipple: boolean) => {
     switchCartRipple(cartRipple);
     setEventOn(true);
@@ -44,19 +63,7 @@ const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
           temp.price = price;
           temp.quantity = 1;
         }
-        console.log(temp, doc.data());
-        firestore
-          .collection("cart")
-          .doc(name)
-          .set({ name: temp.name, price: temp.price, quantity: temp.quantity })
-          .then(() => {
-            console.log("Document Inserted");
-            setEventOn(false);
-          })
-          .catch(() => {
-            console.log("Error uploading document");
-            setEventOn(false);
-          });
+        addItemToFirestore(temp);
       });
 
     setTimeout(() => {
@@ -84,7 +91,15 @@ const PizzaI = styled.div`
   margin: 0 20px;
   margin-top: 80px;
   text-align: center;
+  transition: all 0.5s ease;
   box-shadow: 4px 4px 4px 0px #e2e2e205, -4px 0px 4px 0px #e2e2e205;
+
+  @media screen and (max-width: 700px) {
+    width: 210px;
+    height: 280px;
+    margin: 0 10px;
+    margin-top: 50px;
+  }
 `;
 
 const PName = styled.div`
@@ -93,6 +108,10 @@ const PName = styled.div`
   font-size: 18px;
   font-weight: bold;
   color: white;
+
+  @media screen and (max-width: 700px) {
+    font-size: 16px;
+  }
 `;
 
 const PPrice = styled.div`

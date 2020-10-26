@@ -44,8 +44,9 @@ const Cart: React.FC<Props> = () => {
           </ul>
         </div>
         <div className="cart-items">
-          {cartItems.map((items) => (
+          {cartItems.map((items, ind) => (
             <CartItem
+              index={ind}
               name={items.name}
               quantity={items.quantity}
               price={items.price}
