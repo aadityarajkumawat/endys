@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CartItem } from "../../components/cart-item/CartItem";
+import CartTotal from "../../components/cart-total/CartTotal";
+import { NavFields } from "../../components/fields/NavFields";
 import { firestore } from "../../firebase/config";
 
 interface Props {}
@@ -33,16 +35,12 @@ const Cart: React.FC<Props> = () => {
       <div className="cart-it">
         <div className="top-section">
           <h1>Items in Cart</h1>
-          <button>Checkout</button>
+          <div className="wrap-billing flex align-c">
+            <CartTotal />
+            <button>Checkout</button>
+          </div>
         </div>
-        <div className="fields">
-          <ul>
-            <li>S.No.</li>
-            <li>Name</li>
-            <li>Quantity</li>
-            <li>Price</li>
-          </ul>
-        </div>
+        <NavFields />
         <div className="cart-items">
           {cartItems.map((items, ind) => (
             <CartItem

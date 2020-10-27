@@ -4,7 +4,8 @@
   padding: 10px 80px;
   background-color: #222;
   opacity: 0.99;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 3;
   box-shadow: 0 3px 5px 0px rgba(68, 68, 68, 0.306);
 

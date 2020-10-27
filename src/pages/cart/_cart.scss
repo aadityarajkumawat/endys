@@ -10,6 +10,7 @@
     border: 1px solid rgba(255, 255, 255, 0.164);
     margin-top: 70px;
     transition: all 0.3s ease;
+    font-family: H;
 
     @media screen and (max-width: 1100px) {
       width: 800px;
@@ -30,18 +31,25 @@
       justify-content: space-between;
       align-items: center;
 
+      .wrap-billing {
+        div {
+          color: #eee;
+          margin-right: 15px;
+        }
+
+        button {
+          width: 170px;
+          height: 32px;
+          border: none;
+          background-color: #476539;
+          color: #e5e5e5;
+          border-radius: 8px;
+        }
+      }
+
       h1 {
         color: #e5e5e5;
         user-select: none;
-      }
-
-      button {
-        width: 170px;
-        height: 32px;
-        border: none;
-        background-color: #476539;
-        color: #e5e5e5;
-        border-radius: 8px;
       }
     }
 

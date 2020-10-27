@@ -41,7 +41,7 @@ export const CartItem: React.FC<Props> = ({ name, quantity, price, index }) => {
       .catch(() => {
         console.log("Now i got the err");
       });
-  }; 
+  };
 
   return (
     <div className="cart-item">
@@ -49,7 +49,10 @@ export const CartItem: React.FC<Props> = ({ name, quantity, price, index }) => {
         <div>{index + 1}</div>
         <div>{name}</div>
         <div>{quantity}</div>
-        <div>{price} INR</div>
+        <div>
+          <div>{Number(price) * quantity} INR</div>
+          <div className='pricexquan'>({`${price} x ${quantity}`})</div>
+        </div>
       </div>
       <div className="bottom">
         <Counter quantity={quantity} name={name} price={price} />
