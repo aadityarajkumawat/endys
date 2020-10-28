@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { actionTypesCart } from "../../actions/page/Page";
 import * as MyTypes from "MyTypes";
-import PizzaItem from "../../components/PizzaItem/PizzaItem";
-import { firestore } from "../../firebase/config";
 import { pizzaNameParser } from "../../components/PizzaItem/pizzaNameParser";
+import getMenuItems from "../../firebase/getMenuItems";
+import { PizzaList } from "./PizzaList";
 
 interface Props {
   showCart: () => object;
@@ -23,49 +23,14 @@ const MenuContainer: React.FC<Props> = ({ showCart }) => {
 
   useEffect(() => {
     showCart();
-    firestore
-      .collection("pizza")
-      .get()
-      .then((doc) => {
-        doc.forEach((doo) => {
-          let temp: Pizza = { name: "", price: "", imgUrl: "" };
-          temp.name = doo.data().name;
-          temp.price = doo.data().price;
-          temp.imgUrl = doo.data().imgUrl;
-          temp.name = pizzaNameParser(temp.name);
-          setPizzas((prev) => [...prev, temp]);
-        });
-      });
+    getMenuItems(setPizzas);
   }, []);
 
   return (
     <div className="menu-container flex justify-s align-c flex-dir-col">
       <div className="page-type">Menu</div>
       <div className="pizzas-container">
-        <div className="pizzas-list">
-          {pizzas.map((pizza) => {
-            return (
-              <PizzaItem
-                key={pizza.price}
-                name={pizza.name}
-                url={pizza.imgUrl}
-                price={pizza.price}
-              />
-            );
-          })}
-          {pizzas.length === 0 && (
-            <Fragment>
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-              <PizzaItem name="" price="" />
-            </Fragment>
-          )}
-        </div>
+        <PizzaList pizzas={pizzas} />
       </div>
     </div>
   );
