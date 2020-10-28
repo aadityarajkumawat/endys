@@ -1,28 +1,23 @@
-import React from "react";
 import styled from "styled-components";
 
-interface Props {}
+interface ItemContainerI {
+  width: string;
+  height: string;
+  marginTop: string;
+}
 
-const ItemName: React.FC<Props> = () => {
-  return (
-    <ItemNameContainer>
-      <MovingWave></MovingWave>
-    </ItemNameContainer>
-  );
-};
-
-const ItemNameContainer = styled.div`
-  width: 150px;
-  height: 22px;
+export const ItemContainer = styled.div<ItemContainerI>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   background-color: #525252;
-  margin-top: 10px;
   position: relative;
   overflow-x: hidden;
+  margin-top: ${({ marginTop }) => marginTop};
 `;
 
-const MovingWave = styled.div`
-  width: 150px;
-  height: 22px;
+export const MovingWave = styled.div`
+  width: 100%;
+  height: 100%;
   background: linear-gradient(90deg, #525252 0%, #a4a4a4 50%, #525252 100%);
   position: absolute;
   animation: moveRight 1s infinite ease;
@@ -39,5 +34,3 @@ const MovingWave = styled.div`
     }
   }
 `;
-
-export default ItemName;

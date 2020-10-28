@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { CartShownStatus } from "../../reducers/Page";
 import { Cart } from "../../reducers/Cart";
 import { CartRipple } from "./CartRipple.styles";
-import { firestore } from "../../firebase/config";
+import cartCountUpdater from "../../firebase/cartCountUpdater";
 
 interface Props {
   menu: MenuState;
@@ -32,44 +32,15 @@ const Navbar: React.FC<Props> = ({
   cart,
 }: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
-
   const [cartCount, setCartCount] = useState<number>(0);
 
   useEffect(() => {
-    if (type) {
-      openMenu();
-      console.log("exec");
-    } else {
-      closeMenu();
-    }
+    type ? openMenu() : closeMenu();
   }, [type]);
 
   useEffect(() => {
-    firestore.collection("cart").onSnapshot((snaps) => {
-      setCartCount(0);
-      snaps.forEach((snap) => {
-        setCartCount((prev) => {
-          return (Number(prev) + Number(snap.data().quantity));
-        });
-      });
-    });
+    cartCountUpdater(setCartCount);
   }, []);
-
-  const toggleMenu = () => {
-    if (menu.status === "none") {
-      openMenu();
-    } else {
-      closeMenu();
-    }
-  };
-
-  const navigate = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    if (type) {
-      openMenu();
-    } else {
-      closeMenu();
-    }
-  };
 
   return (
     <div className="navbar-container">
@@ -88,12 +59,15 @@ const Navbar: React.FC<Props> = ({
             typeP={type}
           >
             <li>
-              <Link to="/" onClick={navigate}>
+              <Link to="/" onClick={() => (type ? openMenu() : closeMenu())}>
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/menu" onClick={navigate}>
+              <Link
+                to="/menu"
+                onClick={() => (type ? openMenu() : closeMenu())}
+              >
                 Menu
               </Link>
             </li>
@@ -119,7 +93,10 @@ const Navbar: React.FC<Props> = ({
               </li>
             )}
           </ListContainer>
-          <div className="ham-menu" onClick={toggleMenu}>
+          <div
+            className="ham-menu"
+            onClick={() => (menu.status === "none" ? openMenu() : closeMenu())}
+          >
             <div className="wrapper flex flex-dir-col align-c justify-c">
               <span></span>
               <span className="middle"></span>

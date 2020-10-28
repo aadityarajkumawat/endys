@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Counter } from "../counter/Counter";
-import { firestore } from "../../firebase/config";
-import styled from "styled-components";
+import { CartBottom } from "./cart-components/CartBottom";
+import { CartTop } from "./cart-components/CartTop";
 
 interface Props {
   name: string;
@@ -12,60 +11,16 @@ interface Props {
 
 export const CartItem: React.FC<Props> = ({ name, quantity, price, index }) => {
   const [event, setEvent] = useState<boolean>(false);
-
-  const deleteItem = (id: string) => {
-    // firebase code
-    firestore
-      .collection("cart")
-      .doc(id)
-      .delete()
-      .then(() => {
-        setEvent(false);
-      })
-      .catch((err) => {
-        console.error("errorrr", err);
-      });
-  };
-  const removeItem = () => {
-    // Checking if it already exist
-    setEvent(true);
-    firestore
-      .collection("cart")
-      .where("name", "==", name)
-      .get()
-      .then((snaps) => {
-        snaps.forEach((snap) => {
-          deleteItem(snap.id);
-        });
-      })
-      .catch(() => {
-        console.log("Now i got the err");
-      });
-  };
-
   return (
     <div className="cart-item">
-      <div className="top">
-        <div>{index + 1}</div>
-        <div>{name}</div>
-        <div>{quantity}</div>
-        <div>
-          <div>{Number(price) * quantity} INR</div>
-          <div className='pricexquan'>({`${price} x ${quantity}`})</div>
-        </div>
-      </div>
-      <div className="bottom">
-        <Counter quantity={quantity} name={name} price={price} />
-        <div className="remove">
-          <RemoveButton onClick={removeItem} disabled={event}>
-            Remove
-          </RemoveButton>
-        </div>
-      </div>
+      <CartTop index={index} name={name} quantity={quantity} price={price} />
+      <CartBottom
+        event={event}
+        name={name}
+        price={price}
+        quantity={quantity}
+        setEvent={setEvent}
+      />
     </div>
   );
 };
-
-const RemoveButton = styled.button`
-  background-color: ${({ disabled }) => (disabled ? "#69030348" : "#690303")};
-`;
