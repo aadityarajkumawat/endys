@@ -6,26 +6,29 @@ const changePizzaCount = (
   setEve: React.Dispatch<React.SetStateAction<boolean>>,
   price: string,
   quantity: number,
-  name: string
+  name: string,
+  collectionName: string
 ) => {
   setEve(true);
-  firestore
-    .collection("cart")
-    .where("name", "==", name)
-    .get()
-    .then((snaps) => {
-      snaps.forEach((snap) => {
-        firestore
-          .collection("cart")
-          .doc(snap.id)
-          .set({
-            name: name,
-            price: price,
-            quantity: getUpdatedQuantity(boo, quantity),
-          });
-        setEve(false);
+  if (collectionName !== "") {
+    firestore
+      .collection(collectionName)
+      .where("name", "==", name)
+      .get()
+      .then((snaps) => {
+        snaps.forEach((snap) => {
+          firestore
+            .collection(collectionName)
+            .doc(snap.id)
+            .set({
+              name: name,
+              price: price,
+              quantity: getUpdatedQuantity(boo, quantity),
+            });
+          setEve(false);
+        });
       });
-    });
+  }
 };
 
 export default changePizzaCount;

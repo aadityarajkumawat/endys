@@ -13,15 +13,19 @@ import { CartShownStatus } from "../../reducers/Page";
 import { Cart } from "../../reducers/Cart";
 import { CartRipple } from "./CartRipple.styles";
 import cartCountUpdater from "../../firebase/cartCountUpdater";
+import { actionTypesLogin } from "../../actions/login/Login";
+import { FormI } from "../login/LoginPopup";
 
 interface Props {
   menu: MenuState;
   page: CartShownStatus;
   cart: Cart;
+  user: FormI;
   openMenu: () => object;
   closeMenu: () => object;
   removeCart: () => object;
   showCart: () => object;
+  mountPopup: () => object;
 }
 
 const Navbar: React.FC<Props> = ({
@@ -30,6 +34,8 @@ const Navbar: React.FC<Props> = ({
   closeMenu,
   page,
   cart,
+  mountPopup,
+  user,
 }: Props) => {
   const type = useMediaQuery("(max-width: 1300px)");
   const [cartCount, setCartCount] = useState<number>(0);
@@ -39,8 +45,14 @@ const Navbar: React.FC<Props> = ({
   }, [type]);
 
   useEffect(() => {
-    cartCountUpdater(setCartCount);
+    cartCountUpdater(setCartCount, user.phone);
   }, []);
+
+  const authenticate = () => {
+    if (!localStorage.getItem("userinfo")) {
+      mountPopup();
+    }
+  };
 
   return (
     <div className="navbar-container">
@@ -80,8 +92,8 @@ const Navbar: React.FC<Props> = ({
               </li>
             )}
             {page.cartShown && (
-              <li>
-                <Link to="/cart">
+              <li onClick={authenticate}>
+                <Link to={localStorage.getItem("userinfo") ? "/cart" : "/menu"}>
                   <CartRipple
                     respondInc={cart.rippleS}
                     className="cart-counter"
@@ -114,6 +126,7 @@ const mapStateToProps = (store: MyTypes.ReducerState) => {
     menu: store.menu,
     page: store.page,
     cart: store.cart,
+    user: store.user,
   };
 };
 
@@ -122,6 +135,8 @@ const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   closeMenu: () => dispatch({ type: actionTypes.CLOSE_MENU }),
   showCart: () => dispatch({ type: actionTypesCart.SHOW_CART }),
   removeCart: () => dispatch({ type: actionTypesCart.REMOVE_CART }),
+  mountPopup: () => dispatch({ type: actionTypesLogin.MOUNT_POPUP }),
+  unmountPopup: () => dispatch({ type: actionTypesLogin.UNMOUNT_POPUP }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

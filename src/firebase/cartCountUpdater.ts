@@ -1,16 +1,19 @@
 import { firestore } from "../firebase/config";
 
 const cartCountUpdater = (
-  setCartCount: React.Dispatch<React.SetStateAction<number>>
+  setCartCount: React.Dispatch<React.SetStateAction<number>>,
+  collectionName: string
 ) => {
-  firestore.collection("cart").onSnapshot((snaps) => {
-    setCartCount(0);
-    snaps.forEach((snap) => {
-      setCartCount((prev) => {
-        return Number(prev) + Number(snap.data().quantity);
+  if (collectionName !== "") {
+    firestore.collection(collectionName).onSnapshot((snaps) => {
+      setCartCount(0);
+      snaps.forEach((snap) => {
+        setCartCount((prev) => {
+          return Number(prev) + Number(snap.data().quantity);
+        });
       });
     });
-  });
+  }
 };
 
 export default cartCountUpdater;

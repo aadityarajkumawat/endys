@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { incCartCount } from "../../actions/cart/cartActions";
-import { switchCartRipple } from "../../actions/cart/cartActions";
 import * as MyTypes from "MyTypes";
 import { connect } from "react-redux";
 import { Cart } from "../../reducers/Cart";
 import addToCart from "../../firebase/addToCart";
 import { AddToCart, PName, PPrice, PizzaI } from "./pizzaItemStyled.styles";
 import { GenericItemPlaceholder } from "./pizza-item-placeholders/GenericItemPlaceholder";
+import { FormI } from "../login/LoginPopup";
+import { Dispatch } from "redux";
+import { actionTypesRipple } from "../../actions/cart/Cart";
+import { actionTypesUser } from "../../actions/user/User";
+import { actionTypesLogin } from "../../actions/login/Login";
 
 interface Props {
-  incCartCount: (count: number) => void;
   switchCartRipple: (s: boolean) => void;
   cart: Cart;
   url?: string;
   name: string;
   price: string;
+  user: FormI;
+  mountPopup: () => object;
 }
 
 export interface DocData {
@@ -23,7 +27,14 @@ export interface DocData {
   quantity: number;
 }
 
-const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
+const PizzaItem: React.FC<Props> = ({
+  url,
+  name,
+  price,
+  switchCartRipple,
+  user,
+  mountPopup,
+}) => {
   const [eventOn, setEventOn] = useState<boolean>(false);
 
   return (
@@ -44,7 +55,11 @@ const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
         <GenericItemPlaceholder holderType="price" />
       )}
       <AddToCart
-        onClick={() => addToCart(setEventOn, name, price, switchCartRipple)}
+        onClick={() =>
+          user.phone
+            ? addToCart(setEventOn, name, price, switchCartRipple, user.phone)
+            : mountPopup()
+        }
         disabled={eventOn}
       >
         {name && "Add to cart"}
@@ -56,9 +71,19 @@ const PizzaItem: React.FC<Props> = ({ url, name, price, switchCartRipple }) => {
 const mapStateToProps = (store: MyTypes.ReducerState) => {
   return {
     cart: store.cart,
+    user: store.user,
   };
 };
 
-export default connect(mapStateToProps, { incCartCount, switchCartRipple })(
-  PizzaItem
-);
+const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
+  switchCartRipple: (s: boolean) =>
+    dispatch({
+      type: s ? actionTypesRipple.RIPPLE_ON : actionTypesRipple.RIPPLE_OFF,
+      payload: s,
+    }),
+  emitUser: (user: FormI) =>
+    dispatch({ type: actionTypesUser.EMIT_USER, payload: user }),
+  mountPopup: () => dispatch({ type: actionTypesLogin.MOUNT_POPUP }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PizzaItem);

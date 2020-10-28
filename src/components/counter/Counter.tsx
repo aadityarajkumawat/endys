@@ -6,9 +6,15 @@ interface Props {
   quantity: number;
   name: string;
   price: string;
+  collectionName: string;
 }
 
-export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
+const Counter: React.FC<Props> = ({
+  quantity,
+  name,
+  price,
+  collectionName,
+}) => {
   const [event, setEvent] = useState<boolean>(false);
 
   return (
@@ -19,7 +25,14 @@ export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
           className="up-con"
           onClick={() =>
             !event
-              ? changePizzaCount(true, setEvent, price, quantity, name)
+              ? changePizzaCount(
+                  true,
+                  setEvent,
+                  price,
+                  quantity,
+                  name,
+                  collectionName
+                )
               : null
           }
           eve={event}
@@ -31,7 +44,14 @@ export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
           className="down-con"
           onClick={() =>
             !event
-              ? changePizzaCount(false, setEvent, price, quantity, name)
+              ? changePizzaCount(
+                  false,
+                  setEvent,
+                  price,
+                  quantity,
+                  name,
+                  collectionName
+                )
               : null
           }
           eve={event}
@@ -43,3 +63,5 @@ export const Counter: React.FC<Props> = ({ quantity, name, price }) => {
     </div>
   );
 };
+
+export default Counter;

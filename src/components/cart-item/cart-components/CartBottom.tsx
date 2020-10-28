@@ -1,5 +1,5 @@
 import React from "react";
-import { Counter } from "../../counter/Counter";
+import Counter from "../../counter/Counter";
 import styled from "styled-components";
 import removeItem from "../../../firebase/removeCartItem";
 
@@ -9,6 +9,7 @@ interface Props {
   price: string;
   setEvent: React.Dispatch<React.SetStateAction<boolean>>;
   event: boolean;
+  collectionName: string;
 }
 
 export const CartBottom: React.FC<Props> = ({
@@ -17,13 +18,19 @@ export const CartBottom: React.FC<Props> = ({
   price,
   setEvent,
   event,
+  collectionName,
 }) => {
   return (
     <div className="bottom">
-      <Counter quantity={quantity} name={name} price={price} />
+      <Counter
+        quantity={quantity}
+        name={name}
+        price={price}
+        collectionName={collectionName}
+      />
       <div className="remove">
         <RemoveButton
-          onClick={() => removeItem(name, setEvent)}
+          onClick={() => removeItem(name, setEvent, collectionName)}
           disabled={event}
         >
           Remove
