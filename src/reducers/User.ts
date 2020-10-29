@@ -5,7 +5,6 @@ import { FormI } from "../components/login/LoginPopup";
 const init: FormI = {
   name: "",
   phone: "",
-  password: "",
 };
 
 export const UserReducer = (

@@ -5,6 +5,7 @@ import { Login } from "../../reducers/LoginPop";
 import { Dispatch } from "redux";
 import { actionTypesLogin } from "../../actions/login/Login";
 import { actionTypesUser } from "../../actions/user/User";
+import { motion } from "framer-motion";
 
 interface Props {
   login: Login;
@@ -15,7 +16,6 @@ interface Props {
 export interface FormI {
   name: string;
   phone: string;
-  password: string;
 }
 
 const LoginPopup: React.FC<Props> = ({ login, unmountPopup, emitUser }) => {
@@ -26,12 +26,9 @@ const LoginPopup: React.FC<Props> = ({ login, unmountPopup, emitUser }) => {
   const [formState, setFormState] = useState<FormI>({
     name: "",
     phone: "",
-    password: "",
   });
 
-  const [userType, setUserType] = useState<boolean>(false);
-
-  const { name, phone, password } = formState;
+  const { name, phone } = formState;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
@@ -41,11 +38,7 @@ const LoginPopup: React.FC<Props> = ({ login, unmountPopup, emitUser }) => {
   };
 
   const saveInfo = () => {
-    if (
-      formState.name !== "" &&
-      formState.password !== "" &&
-      formState.phone !== ""
-    ) {
+    if (formState.name !== "" && formState.phone !== "") {
       localStorage.setItem("userinfo", JSON.stringify(formState));
       emitUser(formState);
     }
@@ -64,47 +57,38 @@ const LoginPopup: React.FC<Props> = ({ login, unmountPopup, emitUser }) => {
     <Fragment>
       {login.mounted ? (
         <Fragment>
-          <div
+          <motion.div
+            animate={{ opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
             className="backdrop-container flex justify-c align-c"
             onClick={removePopup}
-          ></div>
-          <div className="login-container flex justify-s align-c flex-dir-col">
+          ></motion.div>
+          <motion.div
+            className="login-container flex justify-s align-c flex-dir-col"
+            animate={{ y: 100, opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+          >
             <div>Please fill the details to procees</div>
             <form className="flex flex-dir-col">
-              {!userType && (
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  onChange={handleChange}
-                  value={name}
-                />
-              )}
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                onChange={handleChange}
+                value={name}
+                autoComplete="off"
+              />
               <input
                 type="phone"
                 name="phone"
                 placeholder="Phone Number"
                 onChange={handleChange}
                 value={phone}
+                autoComplete="off"
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                value={password}
-              />
-              <button onClick={saveInfo}>
-                {!userType ? "Sign Up" : "Login"}
-              </button>
+              <button onClick={saveInfo}>Proceed</button>
             </form>
-            <div className="new-user flex align-c justify-c">
-              New customer?
-              <div onClick={() => setUserType((prev) => !prev)}>
-                {userType ? "Sign Up" : "Login"}
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </Fragment>
       ) : (
         <Fragment></Fragment>

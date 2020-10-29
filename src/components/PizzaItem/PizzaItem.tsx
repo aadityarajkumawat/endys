@@ -56,7 +56,7 @@ const PizzaItem: React.FC<Props> = ({
       )}
       <AddToCart
         onClick={() =>
-          user.phone
+         user.phone && localStorage.getItem("userinfo")
             ? addToCart(setEventOn, name, price, switchCartRipple, user.phone)
             : mountPopup()
         }
@@ -86,4 +86,4 @@ const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   mountPopup: () => dispatch({ type: actionTypesLogin.MOUNT_POPUP }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PizzaItem);
+export default connect(mapStateToProps, mapDispatchToProps)(PizzaItem)

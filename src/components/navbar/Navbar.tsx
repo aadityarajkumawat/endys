@@ -15,6 +15,7 @@ import { CartRipple } from "./CartRipple.styles";
 import cartCountUpdater from "../../firebase/cartCountUpdater";
 import { actionTypesLogin } from "../../actions/login/Login";
 import { FormI } from "../login/LoginPopup";
+import { actionTypesUser } from "../../actions/user/User";
 
 interface Props {
   menu: MenuState;
@@ -46,7 +47,7 @@ const Navbar: React.FC<Props> = ({
 
   useEffect(() => {
     cartCountUpdater(setCartCount, user.phone);
-  }, []);
+  }, [user.phone]);
 
   const authenticate = () => {
     if (!localStorage.getItem("userinfo")) {
@@ -137,6 +138,8 @@ const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   removeCart: () => dispatch({ type: actionTypesCart.REMOVE_CART }),
   mountPopup: () => dispatch({ type: actionTypesLogin.MOUNT_POPUP }),
   unmountPopup: () => dispatch({ type: actionTypesLogin.UNMOUNT_POPUP }),
+  emitUser: (user: FormI) =>
+    dispatch({ type: actionTypesUser.EMIT_USER, payload: user }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
