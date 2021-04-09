@@ -629,6 +629,51 @@
   margin-left: 10px;
 }
 
+.chk-container {
+  width: 100%;
+  height: calc(100% - 80px);
+  padding: 70px 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.chk-container .chk-left {
+  width: 900px;
+  height: 400px;
+  border-radius: 10px;
+  border: 1px solid #646464;
+}
+
+.chk-container .chk-left div .chk-pay-container {
+  width: 40%;
+  height: 80px;
+  border: 1px solid #646464;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.chk-container .chk-left .under {
+  margin-top: 40px;
+  font-size: 30px;
+  color: white;
+  font-style: oblique;
+}
+
+.chk-container .chk-right {
+  width: 400px;
+  height: 400px;
+  border-radius: 10px;
+  border: 1px solid #646464;
+}
+
 * {
   margin: 0;
   padding: 0;
