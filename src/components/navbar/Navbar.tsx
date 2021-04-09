@@ -58,13 +58,15 @@ const Navbar: React.FC<Props> = ({
   return (
     <div className="navbar-container">
       <nav className="flex justify-sb">
-        <div className="logo-section flex justify-c align-c">
-          <img src={Logo} alt="Endys Logo" />
-          <div className="endys flex flex-dir-col">
-            <span className="endys-name">Endys</span>
-            <span className="pizza">PIZZA</span>
+        <Link to="/">
+          <div className="logo-section flex justify-c align-c">
+            <img src={Logo} alt="Endys Logo" />
+            <div className="endys flex flex-dir-col">
+              <span className="endys-name">Endys</span>
+              <span className="pizza">PIZZA</span>
+            </div>
           </div>
-        </div>
+        </Link>
         <div className="nav-links flex align-c">
           <ListContainer
             className="list flex"
@@ -83,9 +85,6 @@ const Navbar: React.FC<Props> = ({
               >
                 Menu
               </Link>
-            </li>
-            <li>
-              <Link to="#">Order Online</Link>
             </li>
             {!page.cartShown && (
               <li>

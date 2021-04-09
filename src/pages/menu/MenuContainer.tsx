@@ -29,7 +29,7 @@ const MenuContainer: React.FC<Props> = ({ showCart, emitUser }) => {
     return localStorage.getItem("userinfo") !== null
       ? localStorage.getItem("userinfo")
       : "";
-  }
+  };
 
   useEffect(() => {
     showCart();

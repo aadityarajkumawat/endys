@@ -18,7 +18,8 @@ const getMenuItems = (
         temp.name = pizzaNameParser(temp.name);
         setPizzas((prev) => [...prev, temp]);
       });
-    });
+    })
+    .catch((e) => console.log("eerror:", e.message));
 };
 
 export default getMenuItems;
